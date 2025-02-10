@@ -11,29 +11,29 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aws-amplify/ui-vue": "^3.1.20",
+    "@aws-amplify/ui-vue": "^4.2.28",
     "@headlessui/vue": "^1.7.14",
     "@heroicons/vue": "^2.1.1",
     "amazon-cognito-identity-js": "^6.3.10",
-    "aws-amplify": "^5.3.13",
-    "axios": "^1.6.5",
+    "aws-amplify": "^5.3.27",
+    "axios": "^1.7.9",
     "maplibre-gl": "^3.6.2",
     "pinia": "^2.1.7",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "^0.7.0",
+    "@aws-amplify/backend": "^1.14.0",
     "@aws-amplify/backend-cli": "^0.9.2",
     "@tailwindcss/forms": "^0.5.3",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.14",
     "msw": "^2.0.13",
     "nsw": "^0.1.0",
-    "postcss": "^8.4.31",
+    "postcss": "^8.5.1",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.3.3",
-    "vite": "^4.5.2",
+    "vite": "^4.5.9",
     "vue-tsc": "^1.8.3"
   },
   "msw": {
