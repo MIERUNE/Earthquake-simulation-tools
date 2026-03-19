@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "cdk"
+        },
+    ],
+    "settings": {
+        "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+    }
+}

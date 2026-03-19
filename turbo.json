@@ -1,0 +1,44 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "globalPassThroughEnv": [
+    "AWS_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY",
+    "AWS_SESSION_TOKEN",
+    "AWS_REGION",
+    "AWS_DEFAULT_REGION"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".svelte-kit/**", ".vercel/**"]
+    },
+    "check": {
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "preview": {
+      "cache": false
+    },
+    "test": {
+      "dependsOn": [],
+      "outputs": ["coverage/**"]
+    },
+    "test:unit": {
+      "dependsOn": [],
+      "outputs": ["coverage/**"]
+    },
+    "lint": {
+      "dependsOn": []
+    },
+    "format": {
+      "dependsOn": []
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

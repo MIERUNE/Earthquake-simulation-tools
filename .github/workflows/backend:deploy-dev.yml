@@ -1,0 +1,59 @@
+name: Deploy Backend
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - 'backend/**'
+            - '.github/workflows/backend:*'
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
+        defaults:
+            run:
+                working-directory: ./backend
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Get AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  role-to-assume: arn:aws:iam::835162652930:role/bridge-eqsim-backend-deploy-role
+                  aws-region: ap-northeast-1
+
+            - name: ECR へのログイン
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v2
+
+            - name: Build and push image
+              uses: docker/build-push-action@v5
+              with:
+                  context: ./backend/
+                  push: true
+                  provenance: false
+                  tags: ${{ steps.login-ecr.outputs.registry }}/bridge_eqsim_backend_ecr:latest
+                  cache-from: type=gha
+                  cache-to: type=gha,mode=max
+                  platforms: linux/amd64
+                  build-args: |
+                    POSTGIS_HOST=${{ secrets.POSTGIS_HOST }}
+                    POSTGIS_PORT=${{ secrets.POSTGIS_PORT }}
+                    POSTGIS_DBNAME=${{ secrets.POSTGIS_DBNAME }}
+                    POSTGIS_USER=${{ secrets.POSTGIS_USER }}
+                    POSTGIS_PASSWORD=${{ secrets.POSTGIS_PASSWORD }}
+                    EARTHQUAKE_PRESET_S3_BUCKET=${{ secrets.EARTHQUAKE_PRESET_S3_BUCKET }}
+                    SIGNED_URL_EXPIRES_IN=${{ secrets.SIGNED_URL_EXPIRES_IN }}
+
+            - name: Lambda へデプロイ
+              run: |
+                  aws lambda update-function-code --function-name bridge-eqsim-api \
+                    --image-uri ${{ steps.login-ecr.outputs.registry }}/bridge_eqsim_backend_ecr:latest

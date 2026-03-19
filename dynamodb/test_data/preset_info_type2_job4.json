@@ -1,0 +1,50 @@
+{
+	"preset_info": [
+		{
+			"PutRequest": {
+				"Item": {
+					"id": { "S": "123e4567-e89b-12d3-a456-426614174033" },
+					"userId": { "S": "us-east-1:12345678-1234-1234-1234-123456789012" },
+					"type": { "S": "narrow" },
+					"job": { "S": "job4" },
+					"regionName": { "S": "" },
+					"presetName": { "S": "プリセットデータ(解析1)" },
+					"meshCode": { "L": [{ "S": "333333" }, { "S": "444444" }] },
+					"gmlFilePath": { "S": "path/to/narrow1" },
+					"wideLongPeriodParamFilePath": { "S": "" },
+					"wideNormalParamFilePath": { "S": "" },
+					"wideDirectlyParamFilePath": { "S": "" },
+					"narrowAnalysisModelFilePath": { "S": "" },
+					"narrowParamFilePath": { "S": "" },
+					"narrowForceParamFilePath": { "S": "" },
+					"narrowCalcParamFilePath": { "S": "" },
+					"additionalInfo": { "S": "additional info2" },
+					"createDateTime": { "N": "1633024801" }
+				}
+			}
+		},
+		{
+			"PutRequest": {
+				"Item": {
+					"id": { "S": "123e4567-e89b-12d3-a456-426614174034" },
+					"userId": { "S": "us-east-1:12345678-1234-1234-1234-123456789012" },
+					"type": { "S": "narrow" },
+					"job": { "S": "job4" },
+					"regionName": { "S": "" },
+					"presetName": { "S": "プリセットデータ(解析2)" },
+					"meshCode": { "L": [{ "S": "333333" }, { "S": "444444" }] },
+					"gmlFilePath": { "S": "path/to/narrow1" },
+					"wideLongPeriodParamFilePath": { "S": "" },
+					"wideNormalParamFilePath": { "S": "" },
+					"wideDirectlyParamFilePath": { "S": "" },
+					"narrowAnalysisModelFilePath": { "S": "" },
+					"narrowParamFilePath": { "S": "" },
+					"narrowForceParamFilePath": { "S": "" },
+					"narrowCalcParamFilePath": { "S": "" },
+					"additionalInfo": { "S": "additional info2" },
+					"createDateTime": { "N": "1633024801" }
+				}
+			}
+		}
+	]
+}

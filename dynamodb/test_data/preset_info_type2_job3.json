@@ -1,0 +1,50 @@
+{
+	"preset_info": [
+		{
+			"PutRequest": {
+				"Item": {
+					"id": { "S": "123e4567-e89b-12d3-a456-426614174031" },
+					"userId": { "S": "us-east-1:12345678-1234-1234-1234-123456789012" },
+					"type": { "S": "narrow" },
+					"job": { "S": "job3" },
+					"regionName": { "S": "静岡市の建物(狭域)" },
+					"presetName": { "S": "" },
+					"meshCode": { "L": [{ "S": "333333" }, { "S": "444444" }] },
+					"gmlFilePath": { "S": "path/to/narrow1" },
+					"wideLongPeriodParamFilePath": { "S": "" },
+					"wideNormalParamFilePath": { "S": "" },
+					"wideDirectlyParamFilePath": { "S": "" },
+					"narrowAnalysisModelFilePath": { "S": "" },
+					"narrowParamFilePath": { "S": "" },
+					"narrowForceParamFilePath": { "S": "" },
+					"narrowCalcParamFilePath": { "S": "" },
+					"additionalInfo": { "S": "additional info2" },
+					"createDateTime": { "N": "1633024801" }
+				}
+			}
+		},
+		{
+			"PutRequest": {
+				"Item": {
+					"id": { "S": "123e4567-e89b-12d3-a456-426614174032" },
+					"userId": { "S": "us-east-1:12345678-1234-1234-1234-123456789012" },
+					"type": { "S": "narrow" },
+					"job": { "S": "job3" },
+					"regionName": { "S": "熱海市の建物(狭域)" },
+					"presetName": { "S": "" },
+					"meshCode": { "L": [{ "S": "333333" }, { "S": "444444" }] },
+					"gmlFilePath": { "S": "path/to/narrow1" },
+					"wideLongPeriodParamFilePath": { "S": "" },
+					"wideNormalParamFilePath": { "S": "" },
+					"wideDirectlyParamFilePath": { "S": "" },
+					"narrowAnalysisModelFilePath": { "S": "" },
+					"narrowParamFilePath": { "S": "" },
+					"narrowForceParamFilePath": { "S": "" },
+					"narrowCalcParamFilePath": { "S": "" },
+					"additionalInfo": { "S": "additional info2" },
+					"createDateTime": { "N": "1633024801" }
+				}
+			}
+		}
+	]
+}

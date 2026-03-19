@@ -1,0 +1,33 @@
+{
+  "name": "narrow-sim",
+  "version": "0.1.0",
+  "bin": {
+    "cdk-stack": "bin/narrow-sim.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "20.14.8",
+    "aws-cdk": "^2.151.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.5.2"
+  },
+  "dependencies": {
+    "@aws-appsync/utils": "^1.9.0",
+    "@aws-sdk/client-dynamodb": "^3.645.0",
+    "aws-cdk-lib": "2.220.0",
+    "cdk-docker-image-deployment": "^0.0.577",
+    "constructs": "^10.3.0",
+    "esbuild": "^0.25.11",
+    "glob": "^11.0.0",
+    "npm-check-updates": "^16.14.20",
+    "source-map-support": "^0.5.21"
+  }
+}

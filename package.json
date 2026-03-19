@@ -1,0 +1,36 @@
+{
+  "name": "mosiri",
+  "version": "1.0.0",
+  "private": true,
+  "description": "mosiri - 地震動シミュレーションWebアプリケーション",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:admin": "turbo run dev --filter=@mosiri/admin",
+    "dev:viewer": "turbo run dev --filter=@mosiri/viewer",
+    "build": "turbo run build",
+    "build:admin": "turbo run build --filter=@mosiri/admin",
+    "build:viewer": "turbo run build --filter=@mosiri/viewer",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "check": "turbo run check",
+    "test": "turbo run test",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3"
+  },
+  "packageManager": "pnpm@9.11.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.11.0"
+  },
+  "dependencies": {
+    "@duckdb/duckdb-wasm": "^1.30.0",
+    "@northprint/duckdb-wasm-adapter-svelte": "^0.3.5",
+    "@turf/buffer": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "@turf/turf": "^6.5.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.0"
+  }
+}

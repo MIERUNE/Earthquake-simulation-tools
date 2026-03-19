@@ -1,0 +1,40 @@
+node_modules
+
+# Output
+.output
+.vercel
+.svelte-kit
+build
+dist
+/coverage
+
+# Turborepo
+.turbo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+
+# CDK
+cdk.context.json
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+*storybook.log
+
+# Backup & local data
+backup/
+dynamodb/data/
+
+# .tmp配下のサブディレクトリは除外、直下のファイルは管理
+.tmp/*/
+!.tmp/*.md

@@ -1,0 +1,32 @@
+{
+    "viewer_info": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "123e4567-e89b-12d3-a456-426614174004"},
+                    "userId": {"S": "us-east-1:12345678-1234-1234-1234-123456789012"},
+                    "type": {"S": "wide"},
+                    "regionName": {"S": "静岡市"},
+                    "simulationDataName": {"S": "data1"},
+                    "simulationDataType": {"S": "wide"},
+                    "simulationDataFilePath": {"S": "path/to/data1"},
+                    "createDateTime": {"N": "1633024800"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "123e4567-e89b-12d3-a456-426614174005"},
+                    "userId": {"S": "us-east-1:12345678-1234-1234-1234-123456789013"},
+                    "type": {"S": "narrow"},
+                    "regionName": {"S": "浜松市"},
+                    "simulationDataName": {"S": "data2"},
+                    "simulationDataType": {"S": "narrow"},
+                    "simulationDataFilePath": {"S": "path/to/data2"},
+                    "createDateTime": {"N": "1633024801"}
+                }
+            }
+        }
+    ]
+}

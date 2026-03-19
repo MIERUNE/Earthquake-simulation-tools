@@ -1,0 +1,13 @@
+{
+  "name": "@mosiri/config",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./index.js",
+  "files": [
+    "eslint",
+    "tailwind",
+    "typescript"
+  ],
+  "scripts": {}
+}

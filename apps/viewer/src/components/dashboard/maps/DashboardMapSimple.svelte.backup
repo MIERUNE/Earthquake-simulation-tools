@@ -1,0 +1,514 @@
+<script lang="ts">
+	import { MapLibre, NavigationControl, ScaleControl } from 'svelte-maplibre-gl';
+	import { DeckGLOverlay } from '@svelte-maplibre-gl/deckgl';
+	import { PMTilesProtocol } from '@svelte-maplibre-gl/pmtiles';
+	import type { Map } from 'maplibre-gl';
+	import type { Layer } from '@deck.gl/core';
+	import { GeoJsonLayer } from '@deck.gl/layers';
+	import { onMount, onDestroy, untrack } from 'svelte';
+	import { loadJSON } from '$lib/utils/dataLoader';
+	import { makeDeckLayers, type DeckLayerConfig } from '$lib/utils/DeckLayerFactory';
+	import type { Feature } from 'geojson';
+	import { initializeDuckDB } from '$lib/utils/duckdb';
+	import type { AsyncDuckDBConnection } from '@duckdb/duckdb-wasm';
+	import type { PickingInfo } from '@deck.gl/core';
+	import {
+		aggregateBuildingDamageWithDuckDB,
+		type AggregationResult
+	} from '$lib/utils/buildingAggregationDuckDB';
+
+	interface Config {
+		layers: DeckLayerConfig[];
+	}
+
+	// Props
+	let {
+		onAggregationComplete,
+		onProgress,
+		onInitializationStatusChange
+	}: {
+		onAggregationComplete?: (results: AggregationResult[]) => void;
+		onProgress?: (current: number, total: number) => void;
+		onInitializationStatusChange?: (isInitializing: boolean) => void;
+	} = $props();
+
+	let mapInstance: Map | undefined;
+	let config: Config | undefined;
+	let deckLayers = $state<Layer[]>([]);
+	let buildingDamageConfig = $state<DeckLayerConfig | undefined>(undefined);
+	let shizuokaBranchConfig = $state<DeckLayerConfig | undefined>(undefined);
+
+	// DuckDB コネクションの保持
+	let duckDBConn: AsyncDuckDBConnection | undefined;
+
+	// MapLibreの表示範囲（bbox）
+	let viewportBbox: [number, number, number, number] | undefined;
+
+	// クリップ処理のキャッシュ
+	const clipProcessingCache = new Map<string, boolean>();
+	const clippedResultsCache = new Map<string, Map<number, Feature[]>>();
+
+	// 選択された小学校区のフィーチャー（最新2つまで）
+	let selectedDistricts = $state<Feature[]>([]);
+
+	// 集計結果を保存
+	let aggregationResults = $state<AggregationResult[]>([]);
+
+	// 静岡市の中心座標
+	const shizuokaCenter: [number, number] = [138.383, 34.975];
+
+	// 背景地図の種類
+	type BaseMapType = 'aerial' | 'std' | 'pale';
+	let selectedBaseMap = $state<BaseMapType>('aerial');
+
+	// UI更新のためのフィーチャー数の閾値
+	const REFRESH_FEATURE_NUMBER = 1000;
+
+	// 地理院タイルのスタイル定義
+	const baseMapStyles: Record<BaseMapType, { name: string; url: string }> = {
+		aerial: {
+			name: '航空写真',
+			url: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg'
+		},
+		std: {
+			name: '標準地図',
+			url: 'https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'
+		},
+		pale: {
+			name: '淡色地図',
+			url: 'https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'
+		}
+	};
+
+	// 背景地図を変更する関数
+	export const changeBaseMap = (mapType: BaseMapType) => {
+		selectedBaseMap = mapType;
+		if (mapInstance) {
+			// 既存のソースとレイヤーがあれば削除
+			if (mapInstance.getLayer('raster-layer')) {
+				mapInstance.removeLayer('raster-layer');
+			}
+			if (mapInstance.getSource('raster-tiles')) {
+				mapInstance.removeSource('raster-tiles');
+			}
+
+			// 新しいソースとレイヤーを追加
+			mapInstance.addSource('raster-tiles', {
+				type: 'raster',
+				tiles: [baseMapStyles[mapType].url],
+				tileSize: 256,
+				attribution:
+					'<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank">地理院タイル</a>'
+			});
+
+			// 最下層に配置（既存レイヤーの前に挿入）
+			const firstLayerId = mapInstance.getStyle().layers[0]?.id;
+			mapInstance.addLayer(
+				{
+					id: 'raster-layer',
+					type: 'raster',
+					source: 'raster-tiles',
+					paint: {}
+				},
+				firstLayerId
+			);
+		}
+	};
+
+	// MapLibreのビューポートからbboxを取得
+	const updateViewportBbox = () => {
+		if (!mapInstance) return;
+
+		const bounds = mapInstance.getBounds();
+		viewportBbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
+	};
+
+	// 小学校区がクリックされたときの処理
+	const onDistrictClick = (info: PickingInfo<any>) => {
+		const { object } = info;
+		if (!object) return;
+
+		console.log('[onDistrictClick] Clicked district:', object.properties?.NAME);
+
+		// 最新2つまで保持
+		selectedDistricts = [
+			object,
+			...(selectedDistricts.length > 0 ? [selectedDistricts[0]] : [])
+		].slice(0, 2);
+
+		console.log('[onDistrictClick] Updated selectedDistricts:', selectedDistricts.map(d => d.properties?.NAME));
+	};
+
+	// selectedDistrictsが変更されたらレイヤーを更新（リアクティブ）
+	$effect(() => {
+		// selectedDistrictsを最初に読み取ることでリアクティブトラッキングを確立
+		const names = selectedDistricts.map((d) => d.properties?.NAME);
+		console.log('[$effect] Triggered with selectedDistricts:', names, 'shizuokaBranchConfig:', !!shizuokaBranchConfig);
+
+		// 初期化前は何もしない
+		if (!shizuokaBranchConfig) {
+			console.log('[$effect] shizuokaBranchConfig not initialized, skipping layer update');
+			return;
+		}
+
+		// 小学校区レイヤーを再作成
+		const districtLayer = new GeoJsonLayer({
+			id: 'shizuoka-branch',
+			data: shizuokaBranchConfig.source,
+			visible: true,
+			pickable: true,
+			autoHighlight: true,
+			onClick: onDistrictClick,
+			getFillColor: (d: any) => {
+				const districtName = d.properties?.NAME;
+				// 選択されている場合は明るい青色、それ以外は元の色
+				if (names.includes(districtName)) {
+					return [100, 200, 255, 150]; // 明るい青色（選択状態）
+				}
+				return shizuokaBranchConfig.getFillColor || [200, 200, 200, 100];
+			},
+			getLineColor: shizuokaBranchConfig.getLineColor || [100, 100, 100, 255],
+			getLineWidth: shizuokaBranchConfig.getLineWidth || 1,
+			lineWidthMinPixels: shizuokaBranchConfig.lineWidthMinPixels || 1,
+			lineWidthUnits: 'pixels',
+			// updateTriggersを使用して選択状態が変わるたびに再レンダリング
+			updateTriggers: {
+				getFillColor: names
+			}
+		});
+
+		console.log('[$effect] Created new district layer');
+
+		// untrackでdeckLayersの更新をリアクティブシステムから除外
+		untrack(() => {
+			const currentLayers = [...deckLayers];
+			console.log('[$effect] Current layer IDs:', currentLayers.map(l => l.id));
+
+			const districtLayerIndex = currentLayers.findIndex((layer) => layer.id === 'shizuoka-branch');
+
+			console.log('[$effect] districtLayerIndex:', districtLayerIndex, 'total layers:', currentLayers.length);
+
+			if (districtLayerIndex !== -1) {
+				// 既存の小学校区レイヤーのみを置き換え
+				currentLayers[districtLayerIndex] = districtLayer;
+				deckLayers = currentLayers;
+				console.log('[$effect] Updated deckLayers with new district layer');
+			} else {
+				console.warn('[$effect] shizuoka-branch layer not found in deckLayers');
+			}
+		});
+	});
+
+	/**
+	 * 建物タイルのロード待機
+	 * タイルが安定してロードされるまで待機します（最大3秒）
+	 */
+	const waitForBuildingTiles = async (maxWaitMs: number = 3000): Promise<number> => {
+		const startTime = Date.now();
+		let lastTileCount = 0;
+		let stableChecks = 0;
+
+		while (Date.now() - startTime < maxWaitMs) {
+			const tileCache = buildingDamageLayer?.state?.tileset?.tiles;
+			if (!tileCache) {
+				await new Promise<void>((resolve) => setTimeout(() => resolve(), 100));
+				continue;
+			}
+
+			const tiles = Object.values(tileCache);
+			const loadedTiles = tiles.filter((tile: any) => tile.dataInWGS84?.length > 0);
+			const currentCount = loadedTiles.length;
+
+			// タイル数が安定している場合（3回連続で同じ）
+			if (currentCount === lastTileCount && currentCount > 0) {
+				stableChecks++;
+				if (stableChecks >= 3) {
+					return currentCount;
+				}
+			} else {
+				stableChecks = 0;
+				lastTileCount = currentCount;
+			}
+
+			await new Promise<void>((resolve) => setTimeout(() => resolve(), 100));
+		}
+
+		return lastTileCount;
+	};
+
+	// 集計処理を実行する関数
+	export const performAggregation = async (): Promise<boolean> => {
+		// 次のフレームで実際の処理を開始(UIが更新されるのを待つ)
+		await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+		if (!duckDBConn || selectedDistricts.length === 0) {
+			console.warn('DuckDB未初期化または小学校区未選択');
+			return false;
+		}
+
+		// 建物被害レイヤーからすべてのフィーチャーを取得
+		// untrackでリアクティブシステムから除外
+		const buildingDamageLayer = untrack(() => deckLayers.find((layer) => layer.id === 'building_damage')) as any;
+		if (!buildingDamageLayer) {
+			console.error('建物被害レイヤーが見つかりません。deckLayers:', untrack(() => deckLayers.map(l => l.id)));
+			return false;
+		}
+
+		// タイルが存在するか確認
+		const buildingTileCache = buildingDamageLayer?.state?.tileset?.tiles;
+		if (!buildingTileCache) {
+			console.error('[performAggregation] No tile cache found!');
+			return false;
+		}
+
+		console.log('[performAggregation] Starting aggregation with available tiles...');
+
+		// タイルのロードを待つ（タイルが安定するまで待機）
+		console.log('[performAggregation] Waiting for building tiles to load...');
+		const loadedTileCount = await waitForBuildingTiles();
+		console.log(`[performAggregation] ${loadedTileCount} tiles loaded, processing...`);
+
+		const tiles = Object.values(buildingTileCache);
+		console.log(`[performAggregation] Processing ${tiles.length} tiles`);
+
+		// 選択された小学校区のバウンディングボックスを計算
+		const districtBounds = selectedDistricts.reduce(
+			(bounds, district) => {
+				const coords = district.geometry.type === 'Polygon'
+					? district.geometry.coordinates[0]
+					: district.geometry.coordinates.flat(2);
+				coords.forEach((coord: number[]) => {
+					bounds.minLng = Math.min(bounds.minLng, coord[0]);
+					bounds.maxLng = Math.max(bounds.maxLng, coord[0]);
+					bounds.minLat = Math.min(bounds.minLat, coord[1]);
+					bounds.maxLat = Math.max(bounds.maxLat, coord[1]);
+				});
+				return bounds;
+			},
+			{ minLng: Infinity, maxLng: -Infinity, minLat: Infinity, maxLat: -Infinity }
+		);
+		console.log('[performAggregation] District bounds:', districtBounds);
+
+		// タイルと小学校区の交差判定（簡易的なバウンディングボックスチェック）
+		const relevantTiles = tiles.filter((tile: any, index: number) => {
+			const tileBbox = tile.bbox;
+			if (!tileBbox) {
+				console.log(`[performAggregation] Tile ${index + 1} has no bbox, including it`);
+				return true; // bboxがない場合は含める
+			}
+
+			// バウンディングボックスが交差するかチェック
+			const intersects = !(
+				tileBbox.west > districtBounds.maxLng ||
+				tileBbox.east < districtBounds.minLng ||
+				tileBbox.south > districtBounds.maxLat ||
+				tileBbox.north < districtBounds.minLat
+			);
+
+			console.log(`[performAggregation] Tile ${index + 1} intersects: ${intersects}`, tileBbox);
+			return intersects;
+		});
+
+		console.log(`[performAggregation] Filtered to ${relevantTiles.length} relevant tiles (from ${tiles.length} total)`);
+
+
+		// 最適化: dataInWGS84アクセスを1回のみにする（従来は2回アクセスして処理時間が2倍になっていた）
+		console.log('[performAggregation] Collecting features (optimized single-pass)...');
+		const allBuildingFeatures: Feature[] = [];
+		let processedFeatures = 0;
+
+		// 進捗の初期化（0からスタート）
+		if (onProgress) {
+			onProgress(0, 1);
+		}
+
+		for (let i = 0; i < relevantTiles.length; i++) {
+			console.log(`[performAggregation] Processing tile ${i + 1}/${relevantTiles.length}...`);
+			const buildingTile = relevantTiles[i] as any;
+
+			const buildingFeatures = buildingTile.dataInWGS84;
+
+			if (buildingFeatures && buildingFeatures.length > 0) {
+				console.log(`[performAggregation] Tile ${i + 1} has ${buildingFeatures.length} features`);
+				allBuildingFeatures.push(...buildingFeatures);
+				processedFeatures += buildingFeatures.length;
+				console.log(`[performAggregation] Collected ${buildingFeatures.length} features, total: ${processedFeatures}`);
+
+				// 各タイル処理後に進捗を報告
+				if (onProgress) {
+					onProgress(processedFeatures, processedFeatures);
+				}
+			} else {
+				console.log(`[performAggregation] Tile ${i + 1} has no features or is null`);
+			}
+		}
+
+		const totalFeatures = processedFeatures;
+		console.log(`[performAggregation] Total features collected: ${totalFeatures}`);
+
+		// DuckDBで高速集計
+		const results = await aggregateBuildingDamageWithDuckDB(
+			duckDBConn,
+			selectedDistricts,
+			allBuildingFeatures
+		);
+
+		aggregationResults = results;
+
+		// 親コンポーネントにコールバック
+		if (onAggregationComplete) {
+			await onAggregationComplete(results);
+		}
+
+		return true;
+	};
+
+	onMount(async () => {
+		try {
+			// 初期化開始を通知
+			if (onInitializationStatusChange) {
+				onInitializationStatusChange(true);
+			}
+
+			// DuckDB初期化とconfig読み込みを並行実行（初回計算時の待ち時間を短縮）
+			const [duckDBInstance, loadedConfig] = await Promise.all([
+				initializeDuckDB(),
+				loadJSON<Config>('/config.json')
+			]);
+
+			duckDBConn = duckDBInstance.conn;
+			config = loadedConfig;
+
+			// shizuoka-branchとbuilding_damageの設定を取得
+			shizuokaBranchConfig = config.layers.find((layer) => layer.id === 'shizuoka-branch');
+			buildingDamageConfig = config.layers.find((layer) => layer.id === 'building_damage');
+
+			// Deck.glレイヤーを作成
+			const layerConfigs = [buildingDamageConfig, shizuokaBranchConfig].filter(
+				Boolean
+			) as DeckLayerConfig[];
+
+			// makeDeckLayersを使用してレイヤーを作成
+			// onDistrictClickをshizuoka-branchのクリックハンドラーとして渡す
+			const baseLayers = makeDeckLayers(layerConfigs, {}, undefined, onDistrictClick);
+
+			deckLayers = baseLayers;
+
+			// 初期化完了を通知
+			if (onInitializationStatusChange) {
+				onInitializationStatusChange(false);
+			}
+		} catch (error) {
+			// エラーハンドリングは省略（仕様書の指示通り）
+			// 初期化失敗時も通知
+			if (onInitializationStatusChange) {
+				onInitializationStatusChange(false);
+			}
+		}
+	});
+
+	// 地図がロードされた時の処理
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	function handleMapLoad(e: any) {
+		mapInstance = e.detail || e.target?.map || e.target;
+
+		// 初期背景地図を設定（航空写真）
+		changeBaseMap('aerial');
+
+		// 初回のbboxを設定
+		updateViewportBbox();
+
+		// 地図の移動・ズームイベントでbboxを更新
+		if (mapInstance) {
+			mapInstance.on('moveend', updateViewportBbox);
+			mapInstance.on('zoomend', updateViewportBbox);
+		}
+	}
+
+	// コンポーネントのクリーンアップ
+	onDestroy(async () => {
+		try {
+			// イベントリスナーの削除
+			if (mapInstance) {
+				mapInstance.off('moveend', updateViewportBbox);
+				mapInstance.off('zoomend', updateViewportBbox);
+			}
+
+			// キャッシュのクリーンアップ
+			clipProcessingCache.clear();
+			clippedResultsCache.clear();
+		} catch (error) {
+			// エラーハンドリングは省略（仕様書の指示通り）
+		}
+	});
+</script>
+
+<div class="h-full w-full relative">
+	<MapLibre
+		style={{
+			version: 8,
+			sources: {},
+			layers: []
+		}}
+		center={shizuokaCenter}
+		zoom={11}
+		class="h-full w-full"
+		onload={handleMapLoad}
+	>
+		<PMTilesProtocol />
+		<NavigationControl position="top-right" />
+		<ScaleControl position="bottom-left" />
+
+		<!-- Deck.glレイヤー（building_damage、shizuoka-branch） -->
+		<DeckGLOverlay layers={deckLayers} />
+	</MapLibre>
+
+	<!-- 選択された小学校区の表示 -->
+	{#if selectedDistricts.length > 0}
+		<div class="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-3 max-w-xs z-[1000]">
+			<h4 class="text-sm font-semibold text-gray-800 mb-2">選択された小学校区</h4>
+			{#each selectedDistricts as district, index}
+				<div class="text-xs text-gray-600 mb-1">
+					{index + 1}. {district.properties?.NAME || '不明'}
+				</div>
+			{/each}
+		</div>
+	{/if}
+
+	<!-- 凡例 -->
+	{#if buildingDamageConfig && shizuokaBranchConfig}
+		<div class="absolute bottom-10 right-4 bg-white rounded-lg shadow-lg p-4 z-999">
+			<h4 class="text-sm font-semibold text-gray-800 mb-3">凡例</h4>
+			<div class="space-y-2">
+				{#if shizuokaBranchConfig && 'getFillColor' in shizuokaBranchConfig && shizuokaBranchConfig.getFillColor}
+					<div>
+						<h5 class="text-xs font-medium text-gray-700 mb-1">小学校区</h5>
+						<div class="flex items-center gap-2">
+							<div
+								class="w-6 h-6 rounded border border-gray-300"
+								style="background-color: rgba({shizuokaBranchConfig
+									.getFillColor[0]}, {shizuokaBranchConfig.getFillColor[1]}, {shizuokaBranchConfig
+									.getFillColor[2]}, {shizuokaBranchConfig.getFillColor[3] / 255})"
+							></div>
+							<span class="text-xs text-gray-600">小学校区</span>
+						</div>
+					</div>
+				{/if}
+				{#if buildingDamageConfig && 'getFillColor' in buildingDamageConfig && buildingDamageConfig.getFillColor}
+					<div>
+						<h5 class="text-xs font-medium text-gray-700 mb-1">建物被害想定</h5>
+						<div class="flex items-center gap-2">
+							<div
+								class="w-6 h-6 rounded border border-gray-300"
+								style="background-color: rgba({buildingDamageConfig
+									.getFillColor[0]}, {buildingDamageConfig.getFillColor[1]}, {buildingDamageConfig
+									.getFillColor[2]}, {buildingDamageConfig.getFillColor[3] / 255})"
+							></div>
+							<span class="text-xs text-gray-600">建物被害想定</span>
+						</div>
+					</div>
+				{/if}
+			</div>
+		</div>
+	{/if}
+</div>

@@ -1,0 +1,50 @@
+{
+    "preset_info": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "123e4567-e89b-12d3-a456-426614174021"},
+                    "userId": {"S": "us-east-1:12345678-1234-1234-1234-123456789012"},
+                    "type": {"S": "wide"},
+                    "job": {"S": "job2"},
+                    "regionName": {"S": ""},
+                    "presetName": {"S": "地震動プリセット1"},
+                    "meshCode": {"L": [{"S": "123456"}, {"S": "123457"}]},
+                    "gmlFilePath": {"S": "path/to/gml1"},
+                    "wideLongPeriodParamFilePath": {"S": ""},
+                    "wideNormalParamFilePath": {"S": ""},
+                    "wideDirectlyParamFilePath": {"S": ""},
+                    "narrowAnalysisModelFilePath": {"S": ""},
+                    "narrowParamFilePath": {"S": ""},
+                    "narrowForceParamFilePath": {"S": ""},
+                    "narrowCalcParamFilePath": {"S": ""},
+                    "additionalInfo": {"S": "additional info1"},
+                    "createDateTime": {"N": "1633024800"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "id": {"S": "123e4567-e89b-12d3-a456-426614174022"},
+                    "userId": {"S": "us-east-1:12345678-1234-1234-1234-123456789012"},
+                    "type": {"S": "wide"},
+                    "job": {"S": "job2"},
+                    "regionName": {"S": ""},
+                    "presetName": {"S": "地震動プリセット2"},
+                    "meshCode": {"L": [{"S": "333333"}, {"S": "444444"}]},
+                    "gmlFilePath": {"S": ""},
+                    "wideLongPeriodParamFilePath": {"S": "path/to/long2"},
+                    "wideNormalParamFilePath": {"S": "path/to/normal2"},
+                    "wideDirectlyParamFilePath": {"S": "path/to/directly2"},
+                    "narrowAnalysisModelFilePath": {"S": ""},
+                    "narrowParamFilePath": {"S": ""},
+                    "narrowForceParamFilePath": {"S": ""},
+                    "narrowCalcParamFilePath": {"S": ""},
+                    "additionalInfo": {"S": "additional info3"},
+                    "createDateTime": {"N": "1633024801"}
+                }
+            }
+        }
+    ]
+}
