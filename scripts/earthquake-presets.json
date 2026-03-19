@@ -1,0 +1,17 @@
+[
+  {
+    "presetName": "東日本大震災",
+    "regionName": "東北地方",
+    "description": "2011年3月11日に発生した東北地方太平洋沖地震（マグニチュード9.0）"
+  },
+  {
+    "presetName": "阪神淡路大震災",
+    "regionName": "近畿地方",
+    "description": "1995年1月17日に発生した兵庫県南部地震（マグニチュード7.3）"
+  },
+  {
+    "presetName": "Hachinohe1968",
+    "regionName": "東北地方",
+    "description": "1968年十勝沖地震の八戸港湾での観測記録"
+  }
+]

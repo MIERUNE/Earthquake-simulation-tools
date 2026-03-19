@@ -1,0 +1,855 @@
+{
+  "cities": [
+    {
+      "code": "52043",
+      "name": "大館市",
+      "prefecture": "秋田県",
+      "meshDataPath": "/大館市-mesh.geojson",
+      "center": {
+        "lat": 40.2714,
+        "lng": 140.5644
+      }
+    },
+    {
+      "code": "72044",
+      "name": "いわき市",
+      "prefecture": "福島県",
+      "meshDataPath": "/いわき市-mesh.geojson",
+      "center": {
+        "lat": 37.0505,
+        "lng": 140.8877
+      }
+    },
+    {
+      "code": "72036",
+      "name": "郡山市",
+      "prefecture": "福島県",
+      "meshDataPath": "/郡山市-mesh.geojson",
+      "center": {
+        "lat": 37.4005,
+        "lng": 140.3596
+      }
+    },
+    {
+      "code": "72010",
+      "name": "福島市",
+      "prefecture": "福島県",
+      "meshDataPath": "/福島市-mesh.geojson",
+      "center": {
+        "lat": 37.7608,
+        "lng": 140.4733
+      }
+    },
+    {
+      "code": "92011",
+      "name": "宇都宮市",
+      "prefecture": "栃木県",
+      "meshDataPath": "/宇都宮市-mesh.geojson",
+      "center": {
+        "lat": 36.5551,
+        "lng": 139.8828
+      }
+    },
+    {
+      "code": "102016",
+      "name": "前橋市",
+      "prefecture": "群馬県",
+      "meshDataPath": "/前橋市-mesh.geojson",
+      "center": {
+        "lat": 36.3894,
+        "lng": 139.0635
+      }
+    },
+    {
+      "code": "113018",
+      "name": "伊奈町",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/伊奈町-mesh.geojson",
+      "center": {
+        "lat": 35.9999,
+        "lng": 139.6239
+      }
+    },
+    {
+      "code": "112143",
+      "name": "春日部市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/春日部市-mesh.geojson",
+      "center": {
+        "lat": 35.9753,
+        "lng": 139.7524
+      }
+    },
+    {
+      "code": "112101",
+      "name": "加須市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/加須市-mesh.geojson",
+      "center": {
+        "lat": 36.1314,
+        "lng": 139.6018
+      }
+    },
+    {
+      "code": "113859",
+      "name": "上里町",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/上里町-mesh.geojson",
+      "center": {
+        "lat": 36.2516,
+        "lng": 139.1449
+      }
+    },
+    {
+      "code": "112321",
+      "name": "久喜市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/久喜市-mesh.geojson",
+      "center": {
+        "lat": 36.0621,
+        "lng": 139.6668
+      }
+    },
+    {
+      "code": "112178",
+      "name": "鴻巣市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/鴻巣市-mesh.geojson",
+      "center": {
+        "lat": 36.0658,
+        "lng": 139.5222
+      }
+    },
+    {
+      "code": "112224",
+      "name": "越谷市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/越谷市-mesh.geojson",
+      "center": {
+        "lat": 35.8911,
+        "lng": 139.7909
+      }
+    },
+    {
+      "code": "112402",
+      "name": "幸手市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/幸手市-mesh.geojson",
+      "center": {
+        "lat": 36.0781,
+        "lng": 139.7258
+      }
+    },
+    {
+      "code": "112283",
+      "name": "志木市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/志木市-mesh.geojson",
+      "center": {
+        "lat": 35.8366,
+        "lng": 139.5802
+      }
+    },
+    {
+      "code": "112461",
+      "name": "白岡市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/白岡市-mesh.geojson",
+      "center": {
+        "lat": 36.0191,
+        "lng": 139.6769
+      }
+    },
+    {
+      "code": "114642",
+      "name": "杉戸町",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/杉戸町-mesh.geojson",
+      "center": {
+        "lat": 36.0256,
+        "lng": 139.7368
+      }
+    },
+    {
+      "code": "112411",
+      "name": "鶴ヶ島市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/鶴ヶ島市-mesh.geojson",
+      "center": {
+        "lat": 35.9345,
+        "lng": 139.3931
+      }
+    },
+    {
+      "code": "112241",
+      "name": "戸田市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/戸田市-mesh.geojson",
+      "center": {
+        "lat": 35.8176,
+        "lng": 139.6779
+      }
+    },
+    {
+      "code": "112305",
+      "name": "新座市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/新座市-mesh.geojson",
+      "center": {
+        "lat": 35.7935,
+        "lng": 139.5653
+      }
+    },
+    {
+      "code": "112381",
+      "name": "蓮田市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/蓮田市-mesh.geojson",
+      "center": {
+        "lat": 35.9945,
+        "lng": 139.6622
+      }
+    },
+    {
+      "code": "112356",
+      "name": "富士見市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/富士見市-mesh.geojson",
+      "center": {
+        "lat": 35.8568,
+        "lng": 139.5491
+      }
+    },
+    {
+      "code": "114651",
+      "name": "松伏町",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/松伏町-mesh.geojson",
+      "center": {
+        "lat": 35.9258,
+        "lng": 139.8151
+      }
+    },
+    {
+      "code": "112372",
+      "name": "三郷市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/三郷市-mesh.geojson",
+      "center": {
+        "lat": 35.8301,
+        "lng": 139.8722
+      }
+    },
+    {
+      "code": "113247",
+      "name": "三芳町",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/三芳町-mesh.geojson",
+      "center": {
+        "lat": 35.8283,
+        "lng": 139.5265
+      }
+    },
+    {
+      "code": "114421",
+      "name": "宮代町",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/宮代町-mesh.geojson",
+      "center": {
+        "lat": 36.0226,
+        "lng": 139.7231
+      }
+    },
+    {
+      "code": "113263",
+      "name": "毛呂山町",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/毛呂山町-mesh.geojson",
+      "center": {
+        "lat": 35.9416,
+        "lng": 139.316
+      }
+    },
+    {
+      "code": "112348",
+      "name": "八潮市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/八潮市-mesh.geojson",
+      "center": {
+        "lat": 35.8225,
+        "lng": 139.8392
+      }
+    },
+    {
+      "code": "112437",
+      "name": "吉川市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/吉川市-mesh.geojson",
+      "center": {
+        "lat": 35.8911,
+        "lng": 139.8413
+      }
+    },
+    {
+      "code": "112232",
+      "name": "蕨市",
+      "prefecture": "埼玉県",
+      "meshDataPath": "/蕨市-mesh.geojson",
+      "center": {
+        "lat": 35.8256,
+        "lng": 139.6798
+      }
+    },
+    {
+      "code": "122211",
+      "name": "八千代市",
+      "prefecture": "千葉県",
+      "meshDataPath": "/八千代市-mesh.geojson",
+      "center": {
+        "lat": 35.7224,
+        "lng": 140.0999
+      }
+    },
+    {
+      "code": "162116",
+      "name": "射水市",
+      "prefecture": "富山県",
+      "meshDataPath": "/射水市-mesh.geojson",
+      "center": {
+        "lat": 36.7122,
+        "lng": 137.0996
+      }
+    },
+    {
+      "code": "172014",
+      "name": "金沢市",
+      "prefecture": "石川県",
+      "meshDataPath": "/金沢市-mesh.geojson",
+      "center": {
+        "lat": 36.5611,
+        "lng": 136.6566
+      }
+    },
+    {
+      "code": "202142",
+      "name": "茅野市",
+      "prefecture": "長野県",
+      "meshDataPath": "/茅野市-mesh.geojson",
+      "center": {
+        "lat": 35.9956,
+        "lng": 138.1589
+      }
+    },
+    {
+      "code": "202029",
+      "name": "松本市",
+      "prefecture": "長野県",
+      "meshDataPath": "/松本市-mesh.geojson",
+      "center": {
+        "lat": 36.2381,
+        "lng": 137.972
+      }
+    },
+    {
+      "code": "212016",
+      "name": "岐阜市",
+      "prefecture": "岐阜県",
+      "meshDataPath": "/岐阜市-mesh.geojson",
+      "center": {
+        "lat": 35.4233,
+        "lng": 136.7607
+      }
+    },
+    {
+      "code": "222054",
+      "name": "熱海市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/熱海市-mesh.geojson",
+      "center": {
+        "lat": 35.096,
+        "lng": 139.0715
+      }
+    },
+    {
+      "code": "222224",
+      "name": "伊豆市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/伊豆市-mesh.geojson",
+      "center": {
+        "lat": 34.9766,
+        "lng": 138.9467
+      }
+    },
+    {
+      "code": "223441",
+      "name": "小山町",
+      "prefecture": "静岡県",
+      "meshDataPath": "/小山町-mesh.geojson",
+      "center": {
+        "lat": 35.3601,
+        "lng": 138.9873
+      }
+    },
+    {
+      "code": "223026",
+      "name": "河津町",
+      "prefecture": "静岡県",
+      "meshDataPath": "/河津町-mesh.geojson",
+      "center": {
+        "lat": 34.757,
+        "lng": 138.9876
+      }
+    },
+    {
+      "code": "223255",
+      "name": "函南町",
+      "prefecture": "静岡県",
+      "meshDataPath": "/函南町-mesh.geojson",
+      "center": {
+        "lat": 35.0889,
+        "lng": 138.9533
+      }
+    },
+    {
+      "code": "222216",
+      "name": "湖西市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/湖西市-mesh.geojson",
+      "center": {
+        "lat": 34.7185,
+        "lng": 137.5316
+      }
+    },
+    {
+      "code": "222151",
+      "name": "御殿場市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/御殿場市-mesh.geojson",
+      "center": {
+        "lat": 35.3086,
+        "lng": 138.9345
+      }
+    },
+    {
+      "code": "221007",
+      "name": "静岡市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/静岡市-mesh.geojson",
+      "center": {
+        "lat": 34.9755,
+        "lng": 138.3824
+      }
+    },
+    {
+      "code": "223417",
+      "name": "清水町",
+      "prefecture": "静岡県",
+      "meshDataPath": "/清水町-mesh.geojson",
+      "center": {
+        "lat": 35.099,
+        "lng": 138.90286
+      }
+    },
+    {
+      "code": "222194",
+      "name": "下田市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/下田市-mesh.geojson",
+      "center": {
+        "lat": 34.6795,
+        "lng": 138.9453
+      }
+    },
+    {
+      "code": "223425",
+      "name": "長泉町",
+      "prefecture": "静岡県",
+      "meshDataPath": "/長泉町-mesh.geojson",
+      "center": {
+        "lat": 35.1377,
+        "lng": 138.8973
+      }
+    },
+    {
+      "code": "223018",
+      "name": "東伊豆町",
+      "prefecture": "静岡県",
+      "meshDataPath": "/東伊豆町-mesh.geojson",
+      "center": {
+        "lat": 34.7728,
+        "lng": 139.0413
+      }
+    },
+    {
+      "code": "222160",
+      "name": "袋井市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/袋井市-mesh.geojson",
+      "center": {
+        "lat": 34.7502,
+        "lng": 137.9246
+      }
+    },
+    {
+      "code": "222101",
+      "name": "富士市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/富士市-mesh.geojson",
+      "center": {
+        "lat": 35.1614,
+        "lng": 138.6763
+      }
+    },
+    {
+      "code": "222071",
+      "name": "富士宮市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/富士宮市-mesh.geojson",
+      "center": {
+        "lat": 35.222,
+        "lng": 138.6217
+      }
+    },
+    {
+      "code": "222267",
+      "name": "牧之原市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/牧之原市-mesh.geojson",
+      "center": {
+        "lat": 34.7401,
+        "lng": 138.2246
+      }
+    },
+    {
+      "code": "222062",
+      "name": "三島市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/三島市-mesh.geojson",
+      "center": {
+        "lat": 35.1185,
+        "lng": 138.9185
+      }
+    },
+    {
+      "code": "223042",
+      "name": "南伊豆町",
+      "prefecture": "静岡県",
+      "meshDataPath": "/南伊豆町-mesh.geojson",
+      "center": {
+        "lat": 34.6511,
+        "lng": 138.8585
+      }
+    },
+    {
+      "code": "222127",
+      "name": "焼津市",
+      "prefecture": "静岡県",
+      "meshDataPath": "/焼津市-mesh.geojson",
+      "center": {
+        "lat": 34.8669,
+        "lng": 138.3233
+      }
+    },
+    {
+      "code": "232122",
+      "name": "安城市",
+      "prefecture": "愛知県",
+      "meshDataPath": "/安城市-mesh.geojson",
+      "center": {
+        "lat": 34.9586,
+        "lng": 137.0803
+      }
+    },
+    {
+      "code": "232301",
+      "name": "日進市",
+      "prefecture": "愛知県",
+      "meshDataPath": "/日進市-mesh.geojson",
+      "center": {
+        "lat": 35.132,
+        "lng": 137.0394
+      }
+    },
+    {
+      "code": "261009",
+      "name": "京都市",
+      "prefecture": "京都府",
+      "meshDataPath": "/京都市-mesh.geojson",
+      "center": {
+        "lat": 35.0116,
+        "lng": 135.7682
+      }
+    },
+    {
+      "code": "272043",
+      "name": "池田市",
+      "prefecture": "大阪府",
+      "meshDataPath": "/池田市-mesh.geojson",
+      "center": {
+        "lat": 34.8217,
+        "lng": 135.4286
+      }
+    },
+    {
+      "code": "272027",
+      "name": "岸和田市",
+      "prefecture": "大阪府",
+      "meshDataPath": "/岸和田市-mesh.geojson",
+      "center": {
+        "lat": 34.4606,
+        "lng": 135.3709
+      }
+    },
+    {
+      "code": "273414",
+      "name": "忠岡町",
+      "prefecture": "大阪府",
+      "meshDataPath": "/忠岡町-mesh.geojson",
+      "center": {
+        "lat": 34.4871,
+        "lng": 135.4015
+      }
+    },
+    {
+      "code": "272272",
+      "name": "東大阪市",
+      "prefecture": "大阪府",
+      "meshDataPath": "/東大阪市-mesh.geojson",
+      "center": {
+        "lat": 34.6793,
+        "lng": 135.6009
+      }
+    },
+    {
+      "code": "331007",
+      "name": "岡山市",
+      "prefecture": "岡山県",
+      "meshDataPath": "/岡山市-mesh.geojson",
+      "center": {
+        "lat": 34.6551,
+        "lng": 133.9196
+      }
+    },
+    {
+      "code": "342025",
+      "name": "呉市",
+      "prefecture": "広島県",
+      "meshDataPath": "/呉市-mesh.geojson",
+      "center": {
+        "lat": 34.2493,
+        "lng": 132.5658
+      }
+    },
+    {
+      "code": "342033",
+      "name": "竹原市",
+      "prefecture": "広島県",
+      "meshDataPath": "/竹原市-mesh.geojson",
+      "center": {
+        "lat": 34.3418,
+        "lng": 132.9071
+      }
+    },
+    {
+      "code": "341002",
+      "name": "広島市",
+      "prefecture": "広島県",
+      "meshDataPath": "/広島市-mesh.geojson",
+      "center": {
+        "lat": 34.3853,
+        "lng": 132.4553
+      }
+    },
+    {
+      "code": "342092",
+      "name": "三次市",
+      "prefecture": "広島県",
+      "meshDataPath": "/三次市-mesh.geojson",
+      "center": {
+        "lat": 34.8056,
+        "lng": 132.8518
+      }
+    },
+    {
+      "code": "352152",
+      "name": "周南市",
+      "prefecture": "山口県",
+      "meshDataPath": "/周南市-mesh.geojson",
+      "center": {
+        "lat": 34.0551,
+        "lng": 131.8063
+      }
+    },
+    {
+      "code": "393860",
+      "name": "いの町",
+      "prefecture": "高知県",
+      "meshDataPath": "/いの町-mesh.geojson",
+      "center": {
+        "lat": 33.5487,
+        "lng": 133.4276
+      }
+    },
+    {
+      "code": "402052",
+      "name": "飯塚市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/飯塚市-mesh.geojson",
+      "center": {
+        "lat": 33.6461,
+        "lng": 130.6914
+      }
+    },
+    {
+      "code": "402257",
+      "name": "うきは市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/うきは市-mesh.geojson",
+      "center": {
+        "lat": 33.3473,
+        "lng": 130.7549
+      }
+    },
+    {
+      "code": "402028",
+      "name": "大牟田市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/大牟田市-mesh.geojson",
+      "center": {
+        "lat": 33.0302,
+        "lng": 130.4461
+      }
+    },
+    {
+      "code": "401005",
+      "name": "北九州市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/北九州市-mesh.geojson",
+      "center": {
+        "lat": 33.8834,
+        "lng": 130.8752
+      }
+    },
+    {
+      "code": "402036",
+      "name": "久留米市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/久留米市-mesh.geojson",
+      "center": {
+        "lat": 33.3193,
+        "lng": 130.5084
+      }
+    },
+    {
+      "code": "404471",
+      "name": "筑前町",
+      "prefecture": "福岡県",
+      "meshDataPath": "/筑前町-mesh.geojson",
+      "center": {
+        "lat": 33.457,
+        "lng": 130.5952
+      }
+    },
+    {
+      "code": "401307",
+      "name": "福岡市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/福岡市-mesh.geojson",
+      "center": {
+        "lat": 33.5903,
+        "lng": 130.4017
+      }
+    },
+    {
+      "code": "402206",
+      "name": "宗像市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/宗像市-mesh.geojson",
+      "center": {
+        "lat": 33.8054,
+        "lng": 130.5407
+      }
+    },
+    {
+      "code": "402231",
+      "name": "古賀市",
+      "prefecture": "福岡県",
+      "meshDataPath": "/古賀市-mesh.geojson",
+      "center": {
+        "lat": 33.72875, 
+        "lng": 130.47
+      }
+    },
+    {
+      "code": "414247",
+      "name": "江北町",
+      "prefecture": "佐賀県",
+      "meshDataPath": "/江北町-mesh.geojson",
+      "center": {
+        "lat": 33.2205,
+        "lng": 130.1573
+      }
+    },
+    {
+      "code": "412031",
+      "name": "鳥栖市",
+      "prefecture": "佐賀県",
+      "meshDataPath": "/鳥栖市-mesh.geojson",
+      "center": {
+        "lat": 33.3778,
+        "lng": 130.5062
+      }
+    },
+    {
+      "code": "422029",
+      "name": "佐世保市",
+      "prefecture": "長崎県",
+      "meshDataPath": "/佐世保市-mesh.geojson",
+      "center": {
+        "lat": 33.1799,
+        "lng": 129.7151
+      }
+    },
+    {
+      "code": "422088",
+      "name": "松浦市",
+      "prefecture": "長崎県",
+      "meshDataPath": "/松浦市-mesh.geojson",
+      "center": {
+        "lat": 33.341,
+        "lng": 129.709
+      }
+    },
+    {
+      "code": "431001",
+      "name": "熊本市",
+      "prefecture": "熊本県",
+      "meshDataPath": "/熊本市-mesh.geojson",
+      "center": {
+        "lat": 32.8031,
+        "lng": 130.7079
+      }
+    },
+    {
+      "code": "442062",
+      "name": "臼杵市",
+      "prefecture": "大分県",
+      "meshDataPath": "/臼杵市-mesh.geojson",
+      "center": {
+        "lat": 33.1259,
+        "lng": 131.8046
+      }
+    },
+    {
+      "code": "462209",
+      "name": "南さつま市",
+      "prefecture": "鹿児島県",
+      "meshDataPath": "/南さつま市-mesh.geojson",
+      "center": {
+        "lat": 31.4166,
+        "lng": 130.3235
+      }
+    }
+  ],
+  "defaultCityCode": "22100"
+}

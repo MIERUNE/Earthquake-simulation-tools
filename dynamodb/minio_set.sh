@@ -19,7 +19,7 @@ create_and_set_public_bucket() {
 }
 
 # 使用例
-create_and_set_public_bucket "myminio/bridge-eqsim-data-tiles"
+create_and_set_public_bucket "myminio/YOUR_S3_BUCKET"
 create_and_set_public_bucket "myminio/bridge-eqsim-presets-dev"
 create_and_set_public_bucket "myminio/bridge-eqsim-fileexchange-dev"
 create_and_set_public_bucket "myminio/bridge-eqsim-reservation-dev"

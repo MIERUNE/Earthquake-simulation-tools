@@ -1,0 +1,47 @@
+name: Deploy Frontend
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - 'frontend/**'
+            - '.github/workflows/frontend:*'
+    workflow_dispatch:
+
+jobs:
+    aws-deploy:
+        runs-on: ubuntu-latest
+        permissions:
+            id-token: write
+            contents: read
+        env:
+            S3_BUCKET: s3://bridge-eqsim-frontend-dev
+        defaults:
+            run:
+                working-directory: ./frontend
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+                  cache: npm
+                  cache-dependency-path: frontend/package-lock.json
+
+            - name: Build Vite+Vue project
+              run: |
+                npm ci
+                npm run build
+
+            - uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  role-to-assume: arn:aws:iam::835162652930:role/bridge-eqsim-frontend-deploy-role
+                  aws-region: ap-northeast-1
+
+            - name: Upload to S3
+              run: |
+                aws s3 sync dist s3://bridge-eqsim-frontend-dev
+                aws s3 cp dist/index.html s3://bridge-eqsim-frontend-dev/index.html --metadata-directive "REPLACE" --cache-control "max-age=15"

@@ -26,12 +26,21 @@ data_init: ## DynamoDBの初期データを設定
 
 lint: ## リントを実行
 	pnpm install
-	npx eslint src
+	pnpm lint
 
 STACK_DIR := ./cdk/backend-stack
-svelte_build: ## Svelteのビルド
+svelte_build: ## 管理システム（admin）のビルド
 	pnpm install
-	pnpm build
+	pnpm build:admin
+
+dev: ## 全アプリの開発サーバー起動
+	pnpm dev
+
+dev_admin: ## 管理システムの開発サーバー起動
+	pnpm dev:admin
+
+dev_viewer: ## ビューワーの開発サーバー起動
+	pnpm dev:viewer
 
 cdk_synth_backend: ## CDKを利用して差分表示
 	export AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID)
