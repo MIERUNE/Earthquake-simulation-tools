@@ -25,12 +25,12 @@
     "@aws-sdk/client-dynamodb": "^3.948.0",
     "@aws-sdk/client-s3": "^3.948.0",
     "@aws-sdk/lib-dynamodb": "^3.948.0",
-    "aws-cdk-lib": "2.220.0",
+    "aws-cdk-lib": "2.246.0",
     "cdk-docker-image-deployment": "^0.0.577",
     "constructs": "^10.4.2",
     "esbuild": "^0.25.11",
-    "glob": "^11.0.1",
-    "npm-check-updates": "^16.14.20",
+    "glob": "^11.1.0",
+    "npm-check-updates": "^20.0.0",
     "source-map-support": "^0.5.21"
   }
 }
