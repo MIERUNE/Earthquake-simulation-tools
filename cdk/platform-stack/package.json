@@ -21,13 +21,13 @@
   },
   "dependencies": {
     "@aws-appsync/utils": "^1.9.0",
-    "@aws-sdk/client-dynamodb": "^3.645.0",
-    "aws-cdk-lib": "2.220.0",
+    "@aws-sdk/client-dynamodb": "^3.1026.0",
+    "aws-cdk-lib": "2.248.0",
     "cdk-docker-image-deployment": "^0.0.577",
     "constructs": "^10.3.0",
     "esbuild": "^0.25.11",
-    "glob": "^11.0.0",
-    "npm-check-updates": "^16.14.20",
+    "glob": "^11.1.0",
+    "npm-check-updates": "^20.0.0",
     "source-map-support": "^0.5.21"
   }
 }
