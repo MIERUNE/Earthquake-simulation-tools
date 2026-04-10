@@ -30,7 +30,7 @@
     "svelte-chartjs": "^3.1.5",
     "svelte-maplibre-gl": "^1.0.1",
     "tailwindcss": "^4.1.11",
-    "vite": "^7.0.8",
+    "vite": "^7.3.2",
     "vitest": "^3.2.4"
   },
   "dependencies": {
