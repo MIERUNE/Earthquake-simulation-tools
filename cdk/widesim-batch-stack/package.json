@@ -29,7 +29,7 @@
     "cdk-docker-image-deployment": "^0.0.577",
     "constructs": "^10.4.2",
     "esbuild": "^0.25.11",
-    "glob": "^11.1.0",
+    "glob": "^12.0.0",
     "npm-check-updates": "^20.0.0",
     "source-map-support": "^0.5.21"
   }
