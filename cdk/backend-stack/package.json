@@ -20,7 +20,7 @@
     "typescript": "~5.6.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.162.1",
+    "aws-cdk-lib": "2.246.0",
     "cdk-docker-image-deployment": "^0.0.633",
     "constructs": "^10.4.2",
     "npm-check-updates": "^17.1.4",

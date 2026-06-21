@@ -25,7 +25,7 @@
     "@aws-sdk/client-dynamodb": "^3.948.0",
     "@aws-sdk/client-s3": "^3.948.0",
     "@aws-sdk/lib-dynamodb": "^3.948.0",
-    "aws-cdk-lib": "2.246.0",
+    "aws-cdk-lib": "2.247.0",
     "cdk-docker-image-deployment": "^0.0.577",
     "constructs": "^10.4.2",
     "esbuild": "^0.25.11",
